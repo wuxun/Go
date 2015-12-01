@@ -1,2 +1,2 @@
 # Go
-Go chess manual viewer for osx
+Game of go record viewer for osx
