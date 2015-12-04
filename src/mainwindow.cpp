@@ -3,7 +3,13 @@
 #include "board.h"
 #include <QSplitter>
 #include <QTextEdit>
+#include <QTextStream>
 #include <QTreeView>
+#include <QFileDialog>
+#include <QDebug>
+
+#include "parser/sgfparser.h"
+#include "parser/gamerecord.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -65,7 +71,28 @@ void MainWindow::createActions()
 
 void MainWindow::open()
 {
-    qInfo("open");
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("SGF Files (*.sgf)"));
+    RecordNode *root = NULL;
+    if (!fileName.isEmpty()) {
+        qInfo("Open:%s", fileName.toStdString().c_str());
+        QFile file(fileName);
+        if (file.open(QIODevice::ReadWrite)) {
+            QTextStream in(&file);
+            SgfParser parser;
+            root = new RecordNode;
+            parser.doParse(in, root);
+            file.close();
+            qDebug("------------------");
+            qDebug() << root->toString();
+        }
+    }
+
+//    QString str = "(;AP[Ha\\]ndTalk]GM[1][2]PW[wuxun]PB[panda][dapan](;W[aa](;B[cc]C[a\\]nother];W[dd]);B[ee]))";
+//    QTextStream in(&str);
+//    SgfParser parser;
+//    RecordNode *record = new RecordNode;
+//    parser.doParse(in, record);
 }
 
 void MainWindow::createStatusBar()
