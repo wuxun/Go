@@ -1,5 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>resources/wood.png</file>
+    <file>resources/stone_black_small.png</file>
+    <file>resources/stone_white_small.png</file>
 </qresource>
 </RCC>

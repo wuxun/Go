@@ -1,5 +1,7 @@
 #include "gametreemodel.h"
 
+#include <QIcon>
+
 GameTreeModel::GameTreeModel(QObject *parent):QAbstractItemModel(parent)
 {
     root = NULL;
@@ -18,10 +20,19 @@ QVariant GameTreeModel::data(const QModelIndex & index, int role) const
         return QVariant();
     }
 
+    RecordNode *item = static_cast<RecordNode*>(index.internalPointer());
+
     if(role==Qt::DisplayRole)
     {
-        RecordNode *item = static_cast<RecordNode*>(index.internalPointer());
         return QVariant(item->getCoordinate());
+    }
+
+    if(role==Qt::DecorationRole&&index.column()==0) {
+        if (item->moveType == PropType::BLACK_MOVE) {
+            return QIcon(":resources/stone_black_small.png");
+        } else if (item->moveType == PropType::WHITE_MOVE) {
+            return QIcon(":resources/stone_white_small.png");
+        }
     }
 
     return QVariant();
