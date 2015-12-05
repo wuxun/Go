@@ -9,13 +9,16 @@ HEADERS += \
     src/parser/gamerecord.h \
     src/parser/sgfparser.h \
     src/board.h \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/gametreemodel.h
 
 SOURCES += \
     src/parser/sgfparser.cpp \
     src/board.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/gametreemodel.cpp \
+    src/parser/gamerecord.cpp
 
 FORMS += \
     src/mainwindow.ui

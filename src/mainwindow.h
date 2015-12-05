@@ -10,6 +10,7 @@ class QMenu;
 class QSplitter;
 class QTextEdit;
 class QTreeView;
+class RecordNode;
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +47,7 @@ private:
     void createMenus();
     void createStatusBar();
     void updateStatusBar(QString &str);
+    void setGameRecordTree(RecordNode *node);
 };
 
 #endif // MAINWINDOW_H

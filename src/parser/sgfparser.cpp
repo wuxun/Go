@@ -150,7 +150,7 @@ bool SgfParser::doParse(QTextStream &in, RecordNode *root)
                 startParse = false;
                 parents.push(root);
             } else {
-                RecordNode *tmpRecord = new RecordNode;
+                RecordNode *tmpRecord = new RecordNode(parents.top());
                 parents.top()->childrens.push_back(tmpRecord);
                 parents.push(tmpRecord);
             }
@@ -195,17 +195,14 @@ bool SgfParser::doParse(QTextStream &in, RecordNode *root)
 
             if (!nodeStr.isEmpty()) {
                 if (current == NULL) {
-                    current = new RecordNode;
+                    current = new RecordNode(parents.top());
                     parents.top()->childrens.push_back(current);
-                    parents.pop();
-                    parents.push(current);
                 }
 
                 if (!parseNodeStr(nodeStr, current)) {
                     qDebug() << "parse node error:" << nodeStr;
                     return false;
                 }
-                qDebug() << "pased node: " << current->toString();
                 current = NULL;
             }
         } else if (ch.isSpace()) {
@@ -274,7 +271,7 @@ bool SgfParser::parseNodeStr(QString &nodeStr, RecordNode *node)
                 pos--;
             }
         } else {
-            qDebug("unknown");
+            qDebug() << "unknown:" << nodeStr[pos];
         }
         pos++;
     }

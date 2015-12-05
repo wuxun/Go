@@ -10,6 +10,7 @@
 
 #include "parser/sgfparser.h"
 #include "parser/gamerecord.h"
+#include "gametreemodel.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -81,18 +82,14 @@ void MainWindow::open()
             QTextStream in(&file);
             SgfParser parser;
             root = new RecordNode;
-            parser.doParse(in, root);
+            if (parser.doParse(in, root)) {
+                setGameRecordTree(root);
+            } else {
+                delete root;
+            }
             file.close();
-            qDebug("------------------");
-            qDebug() << root->toString();
         }
     }
-
-//    QString str = "(;AP[Ha\\]ndTalk]GM[1][2]PW[wuxun]PB[panda][dapan](;W[aa](;B[cc]C[a\\]nother];W[dd]);B[ee]))";
-//    QTextStream in(&str);
-//    SgfParser parser;
-//    RecordNode *record = new RecordNode;
-//    parser.doParse(in, record);
 }
 
 void MainWindow::createStatusBar()
@@ -105,4 +102,11 @@ void MainWindow::createStatusBar()
 void MainWindow::updateStatusBar(QString &str)
 {
     statusLabel->setText(str);
+}
+
+void MainWindow::setGameRecordTree(RecordNode *node)
+{
+    GameTreeModel *model = new GameTreeModel;
+    model->setModelData(node);
+    stepTreeView->setModel(model);
 }
