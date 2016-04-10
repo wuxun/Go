@@ -11,12 +11,15 @@
 #include "parser/sgfparser.h"
 #include "parser/gamerecord.h"
 #include "gametreemodel.h"
+#include "resourceholder.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ResourceHolder::initResource();
 
     createActions();
     createMenus();

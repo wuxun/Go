@@ -1,5 +1,8 @@
 #include "board.h"
 #include <QGraphicsLineItem>
+#include <QMouseEvent>
+
+#include "stone.h"
 
 #define BOARD_SIZE 19
 
@@ -29,6 +32,8 @@ Board::Board(QWidget *)
         scene->addItem(item);
         stars.append(item);
     }
+
+    nextColor = Stone::BLACK;
 }
 
 Board::~Board()
@@ -109,6 +114,32 @@ void Board::drawStars()
     }
 }
 
+void Board::mousePressEvent(QMouseEvent * event)
+{
+    QPoint point = coordinateToPoint(event->x(), event->y());
+    if(isValidClick(point)) {
+        onClick(point.x(), point.y());
+    }
+}
+
+bool Board::isValidClick(QPoint point)
+{
+    return 0 <= point.x() && point.x() < BOARD_SIZE
+            && 0 <= point.y() && point.y() < BOARD_SIZE;
+}
+
+void Board::onClick(int x, int y)
+{
+    Stone *stone = new Stone(getNextColor());
+    QPoint point = pointToCoordinate(x, y);
+    scene->addItem(stone);
+    stone->setPos(point.x() - cell_width / 2 , point.y() - cell_width / 2);
+    stone->setZValue(10);
+    stone->setSize(cell_width);
+    stone->show();
+    qInfo("x:%d, y:%d", x, y);
+}
+
 QPoint Board::pointToCoordinate(int x, int y)
 {
     return QPoint(top_left_x + offset + x * cell_width, top_left_y + offset + y * cell_width);
@@ -116,5 +147,16 @@ QPoint Board::pointToCoordinate(int x, int y)
 
 QPoint Board::coordinateToPoint(int x, int y)
 {
-    return QPoint((x - top_left_x - offset) / cell_width, (y - top_left_y - offset) / cell_width);
+    return QPoint((x - top_left_x - offset + cell_width / 2) / cell_width, (y - top_left_y - offset + cell_width / 2) / cell_width);
+}
+
+Stone::StoneColor Board::getNextColor()
+{
+    Stone::StoneColor curColor = nextColor;
+    if (nextColor == Stone::BLACK) {
+        nextColor = Stone::WHITE;
+    } else if (nextColor == Stone::WHITE){
+        nextColor = Stone::BLACK;
+    }
+    return curColor;
 }

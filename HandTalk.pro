@@ -10,7 +10,9 @@ HEADERS += \
     src/parser/sgfparser.h \
     src/board.h \
     src/mainwindow.h \
-    src/gametreemodel.h
+    src/gametreemodel.h \
+    src/stone.h \
+    src/resourceholder.h
 
 SOURCES += \
     src/parser/sgfparser.cpp \
@@ -18,7 +20,9 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/gametreemodel.cpp \
-    src/parser/gamerecord.cpp
+    src/parser/gamerecord.cpp \
+    src/stone.cpp \
+    src/resourceholder.cpp
 
 FORMS += \
     src/mainwindow.ui

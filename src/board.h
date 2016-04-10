@@ -5,6 +5,8 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
+#include "stone.h"
+
 class Board :
         public QGraphicsView
 {
@@ -28,6 +30,8 @@ private:
     int cell_width; // cell width
     int offset; // distance from board top left corner to top left stone place (x = y = offset)
 
+    Stone::StoneColor nextColor;
+
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void calculate();
@@ -35,6 +39,13 @@ private:
     void drawStars();
     QPoint pointToCoordinate(int x, int y);
     QPoint coordinateToPoint(int x, int y);
+    bool isValidClick(QPoint point);
+    void onClick(int x, int y);
+
+    Stone::StoneColor getNextColor();
+
+protected:
+    void mousePressEvent(QMouseEvent * event);
 };
 
 #endif // BOARD_H

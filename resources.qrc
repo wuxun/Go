@@ -3,5 +3,7 @@
     <file>resources/wood.png</file>
     <file>resources/stone_black_small.png</file>
     <file>resources/stone_white_small.png</file>
+    <file>resources/stone_black.png</file>
+    <file>resources/stone_white.png</file>
 </qresource>
 </RCC>
